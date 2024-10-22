@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Puntuaciones o vidas ancladas a la esquina superior derecha -->
+    <VBox spacing="10" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <Label fx:id="labelPuntuaciones" text="Puntos: 0" />
+        <Label fx:id="labelVidasRestantes" text="Vidas: 9" />
+    </VBox>
+
+    <!-- Contenedor central para los componentes del juego -->
+    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Imagen del Ahorcado centrada -->
+        <ImageView fx:id="imageAhorcado" fitHeight="100" fitWidth="100" />
+
+        <!-- Área de la palabra a adivinar centrada -->
+        <Label fx:id="labelPalabra" text="_ _ _ _ _ _ _ _ _" />
+
+        <!-- Letras intentadas centradas -->
+        <Label fx:id="labelLetrasIntentadas" text="A C D" />
+
+        <!-- Campo de texto y botones centrados -->
+        <HBox alignment="CENTER" spacing="10">
+            <TextField fx:id="textFieldLetra" promptText="Ingrese una letra" />
+            <Button fx:id="buttonProbarLetra" onAction="#procesarLetra" text="Letra" />
+            <Button fx:id="buttonResolverPalabra" onAction="#resolverPalabra" text="Resolver" />
+        </HBox>
+
+    </VBox>
+
+</AnchorPane>
