@@ -45,22 +45,15 @@ public class RootController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        // Elimino las pestañas cargadas por defecto
         containerTabPane.getTabs().clear();
-
-        // Instanciar PuntuacionesController
         puntuacionesControllerInstance = new PuntuacionesController();
 
-        // Ventana de Partida, pasando el PuntuacionesController al constructor
         Tab partidaTab = new Tab("Partida");
         partidaTab.setContent(new PartidaController(puntuacionesControllerInstance).getRoot());
 
-        // Ventana de Palabras
         Tab palabrasTab = new Tab("Palabras");
         palabrasTab.setContent(new PalabrasController().getRoot());
 
-        // Ventana de Puntuaciones
         Tab puntuacionesTab = new Tab("Puntuaciones");
         puntuacionesTab.setContent(puntuacionesControllerInstance.getRoot());
 
@@ -69,5 +62,9 @@ public class RootController implements Initializable {
 
     public BorderPane getRoot() {
         return root;
+    }
+
+    public PuntuacionesController getPuntuacionesControllerInstance() {
+        return puntuacionesControllerInstance;
     }
 }

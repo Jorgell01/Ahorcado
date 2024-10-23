@@ -1,17 +1,22 @@
 package dad.ahorcado;
 
+import dad.ahorcado.controllers.LoginController;
 import dad.ahorcado.controllers.RootController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AhorcadoApp extends Application {
-    private RootController rootController = new RootController();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Ahorcado");
-        primaryStage.setScene(new Scene(rootController.getRoot()));
+        RootController rootController = new RootController();
+
+        // Mostrar primero la pantalla de Login
+        LoginController loginController = new LoginController(primaryStage, rootController);
+        primaryStage.setTitle("Ahorcado - Login");
+
+        primaryStage.setScene(new Scene(loginController.getRoot()));
         primaryStage.show();
     }
 }

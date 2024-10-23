@@ -122,12 +122,26 @@ public class PuntuacionesController implements Initializable {
 
     // Metodo para guardar las puntuaciones al acabar una partida
     public void finalizarPartida(String nombreJugador, int puntuacion) {
+
+        boolean jugadorExiste = false;
+        for (Jugador jugador : jugadores) {
+            if (jugador.getNick().equalsIgnoreCase(nombreJugador)) {
+                jugadorExiste = true;
+                break; // Si lo encuentro me salgo del bucle
+            }
+        }
+
+        if (!jugadorExiste) {
         Jugador nuevojugador = new Jugador(nombreJugador, puntuacion);
+        jugadores.add(nuevojugador);
         guardarPuntuaciones(nuevojugador);
+        actualizarPuntuaciones();
+        } else {
+            System.out.println("El jugador " + nombreJugador + " ya existe.");
+        }
     }
 
     public AnchorPane getRoot() {
         return root;
     }
-
 }
