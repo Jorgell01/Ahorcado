@@ -39,5 +39,11 @@
       <artifactId>gson</artifactId>
       <version>2.11.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId> <!-- Necesaria para reproducir audio -->
+      <version>22.0.1</version>
+    </dependency>
   </dependencies>
 </project>
