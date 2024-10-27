@@ -3,26 +3,38 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ListView fx:id="listPalabras" layoutX="54.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="20.0" />
-      <VBox fx:id="containerButton" layoutX="467.0" layoutY="31.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <!-- ListView donde se mostrarán las palabras añadidas -->
+      <ListView fx:id="listPalabras" layoutX="54.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="20.0" />
+
+      <!-- VBox para contener el TextField y los botones -->
+      <VBox fx:id="containerButton" alignment="TOP_CENTER" layoutX="467.0" layoutY="31.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <!-- TextField para ingresar nuevas palabras -->
+            <TextField fx:id="textFieldNuevaPalabra" promptText="Escribe una palabra" />
+
+            <!-- Botón para añadir la palabra ingresada -->
             <Button fx:id="aniadirButton" mnemonicParsing="false" text="Añadir">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
                </VBox.margin>
             </Button>
+
+            <!-- Botón para quitar la palabra seleccionada -->
             <Button fx:id="quitarButton" mnemonicParsing="false" text="Quitar">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
                </VBox.margin>
             </Button>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

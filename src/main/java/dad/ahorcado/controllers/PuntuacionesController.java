@@ -35,6 +35,8 @@ public class PuntuacionesController implements Initializable {
 
     private final String FILE_PATH = "puntuaciones.json";
 
+    private String nombreJugador;
+
     public PuntuacionesController() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PuntuacionesController.fxml"));
@@ -45,57 +47,45 @@ public class PuntuacionesController implements Initializable {
         }
     }
 
-    public void initialize (URL url, ResourceBundle resourceBundle) {
-        // Iniciar la lista de los gaymers
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         jugadores = cargarPuntuaciones();
-
-        // Actualizar el listview
         actualizarPuntuaciones();
     }
 
-
-    // Guardar las puntuaciones en el JSON
-    public void guardarPuntuaciones(Jugador jugador) {
-        File jsonFile = new File(FILE_PATH);
-
-        // Ver si se ha creado el json y donde
-        System.out.println("El archivo JSON se creará en: " + jsonFile.getAbsolutePath());
-
-        List<Jugador> jugadores = new ArrayList<>();
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-
-        if (jsonFile.exists()) {
-            try(FileReader reader = new FileReader(jsonFile)) {
-                Jugador [] jugadoresArray = gson.fromJson(reader, Jugador[].class);
-                if (jugadoresArray != null) {
-                    jugadores.addAll(Arrays.asList(jugadoresArray));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (com.google.gson.JsonSyntaxException e) {
-                System.out.println("El archivo tiene un formato incorrecto");
-            }
-        }
-
-        jugadores.add(jugador);
-
-        try (FileWriter writer = new FileWriter(jsonFile)) {
-            gson.toJson(jugadores, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Puntuaciones guardadas correctamente en puntuaciones.json");
-
+    public void setJugadorActual(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
     }
 
-    // Cargar las puntuaciones desde JSON
+    public void guardarPuntuaciones() {
+        File jsonFile = new File(FILE_PATH);
+        System.out.println("Intentando guardar en: " + jsonFile.getAbsolutePath());
+
+        if (!jsonFile.exists()) {
+            try {
+                if (jsonFile.createNewFile()) {
+                    System.out.println("Archivo puntuaciones.json creado en: " + jsonFile.getAbsolutePath());
+                } else {
+                    System.out.println("Error al crear puntuaciones.json en: " + jsonFile.getAbsolutePath());
+                }
+            } catch (IOException e) {
+                System.err.println("Error al crear el archivo puntuaciones.json: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(jsonFile)) {
+            gson.toJson(jugadores, writer);
+            System.out.println("Puntuaciones guardadas correctamente en puntuaciones.json");
+        } catch (IOException e) {
+            System.err.println("Error al guardar puntuaciones en puntuaciones.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private List<Jugador> cargarPuntuaciones() {
         List<Jugador> jugadoresCargados = new ArrayList<>();
         File jsonFile = new File(FILE_PATH);
-
         if (jsonFile.exists()) {
             Gson gson = new Gson();
             try (FileReader reader = new FileReader(jsonFile)) {
@@ -107,39 +97,52 @@ public class PuntuacionesController implements Initializable {
                 e.printStackTrace();
             }
         }
-
         return jugadoresCargados;
     }
 
-    // Actualizar puntuaciones
     public void actualizarPuntuaciones() {
         List<String> listaPuntuaciones = new ArrayList<>();
         for (Jugador jugador : jugadores) {
-            listaPuntuaciones.add(jugador.getNick() + "-" + jugador.getPuntuacion() + " puntos");
+            listaPuntuaciones.add(jugador.getNick() + " - " + jugador.getPuntuacion() + " puntos");
         }
         puntuacionesListView.getItems().setAll(listaPuntuaciones);
     }
 
-    // Metodo para guardar las puntuaciones al acabar una partida
     public void finalizarPartida(String nombreJugador, int puntuacion) {
+        System.out.println("Nombre del jugador recibido en finalizarPartida: " + nombreJugador);
+        System.out.println("Puntuación recibida en finalizarPartida: " + puntuacion);
+
+        if (nombreJugador == null || nombreJugador.isEmpty()) {
+            System.out.println("Error: El nombre del jugador no puede estar vacío.");
+            return;
+        }
 
         boolean jugadorExiste = false;
         for (Jugador jugador : jugadores) {
             if (jugador.getNick().equalsIgnoreCase(nombreJugador)) {
                 jugadorExiste = true;
-                break; // Si lo encuentro me salgo del bucle
+                jugador.setPuntuacion(jugador.getPuntuacion() + puntuacion);
+                break;
             }
         }
 
         if (!jugadorExiste) {
-        Jugador nuevojugador = new Jugador(nombreJugador, puntuacion);
-        jugadores.add(nuevojugador);
-        guardarPuntuaciones(nuevojugador);
-        actualizarPuntuaciones();
-        } else {
-            System.out.println("El jugador " + nombreJugador + " ya existe.");
+            Jugador nuevoJugador = new Jugador(nombreJugador, puntuacion);
+            jugadores.add(nuevoJugador);
         }
+
+        guardarPuntuaciones();
     }
+
+    public int obtenerPuntuacionJugador(String nombreJugador) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getNick() != null && jugador.getNick().equalsIgnoreCase(nombreJugador)) {
+                return jugador.getPuntuacion();
+            }
+        }
+        return 0; // Retorna 0 si el jugador no tiene puntuación previa
+    }
+
 
     public AnchorPane getRoot() {
         return root;

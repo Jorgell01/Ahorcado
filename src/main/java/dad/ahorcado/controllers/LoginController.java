@@ -17,7 +17,6 @@ public class LoginController {
     private TextField nicknameTextField;
 
     private Stage stage;
-
     private RootController rootController;
 
     @FXML
@@ -34,13 +33,12 @@ public class LoginController {
             loader.load();
 
             // Cargar y reproducir la música de fondo desde el classpath
-            String musicFile = getClass().getResource("/music/You-have-no-enemies.wav").toExternalForm(); // Esto cargará el archivo desde el classpath correctamente
+            String musicFile = getClass().getResource("/music/You-have-no-enemies.wav").toExternalForm();
             Media sound = new Media(musicFile);
             mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Repite indefinidamente
-            mediaPlayer.setVolume(0.3); // Asegurar que haya volumen
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setVolume(0.1);
             mediaPlayer.play();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,20 +48,14 @@ public class LoginController {
     private void handleLogin() {
         String nickname = nicknameTextField.getText().trim();
         if (!nickname.isEmpty()) {
-            rootController.getPuntuacionesControllerInstance().finalizarPartida(nickname, 0);
+            rootController.setNombreJugador(nickname);  // Pasamos el nombre del jugador a RootController
+            System.out.println("Nombre del jugador en LoginController: " + nickname);
 
-            // Detener la música de la ventana de login antes de cambiar a la ventana principal
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-            }
-
-            // Cambiar a la ventana principal (RootController)
-            stage.setTitle("AhorcadoApp");
+            // Cambiar la escena al juego principal
             stage.setScene(new Scene(rootController.getRoot()));
             stage.show();
-
-            // Reproducir la música en el RootController (si no está ya reproduciéndose)
-            rootController.reproducirMusica();
+        } else {
+            System.out.println("El nickname no puede estar vacío.");
         }
     }
 
