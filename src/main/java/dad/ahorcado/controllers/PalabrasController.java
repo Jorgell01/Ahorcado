@@ -27,22 +27,17 @@ public class PalabrasController implements Initializable {
 
     @FXML
     private ListView<String> listPalabras;
-
     @FXML
     private TextField textFieldNuevaPalabra;
-
     @FXML
     private Button aniadirButton;
-
     @FXML
     private Button quitarButton;
-
     @FXML
     private AnchorPane root;
 
     private ObservableList<String> palabras;
-
-    private final String FILE_PATH = "palabras.json"; // Archivo donde se guardarán las palabras
+    private final String FILE_PATH = "palabras.json"; // Archivo para guardar las palabras
 
     public PalabrasController() {
         try {
@@ -56,9 +51,10 @@ public class PalabrasController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        palabras = FXCollections.observableArrayList(cargarPalabras()); // Cargar palabras desde JSON
+        palabras = FXCollections.observableArrayList(cargarPalabras()); // Cargar palabras desde JSON al iniciar
         listPalabras.setItems(palabras);
 
+        // Botones para añadir y quitar palabras de la lista
         aniadirButton.setOnAction(e -> aniadirPalabra());
         quitarButton.setOnAction(e -> quitarPalabra());
     }
@@ -68,7 +64,7 @@ public class PalabrasController implements Initializable {
         if (!nuevaPalabra.isEmpty() && !palabras.contains(nuevaPalabra)) {
             palabras.add(nuevaPalabra);
             textFieldNuevaPalabra.clear();
-            guardarPalabras(); // Guardar en JSON tras añadir
+            guardarPalabras(); // Guardar cambios
         }
     }
 
@@ -76,7 +72,7 @@ public class PalabrasController implements Initializable {
         String palabraSeleccionada = listPalabras.getSelectionModel().getSelectedItem();
         if (palabraSeleccionada != null) {
             palabras.remove(palabraSeleccionada);
-            guardarPalabras(); // Guardar en JSON tras quitar
+            guardarPalabras(); // Guardar cambios
         }
     }
 
@@ -84,13 +80,13 @@ public class PalabrasController implements Initializable {
         File jsonFile = new File(FILE_PATH);
         if (jsonFile.exists()) {
             try (FileReader reader = new FileReader(jsonFile)) {
-                Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+                Type listType = new TypeToken<ArrayList<String>>() {}.getType();
                 return new Gson().fromJson(reader, listType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return new ArrayList<>(); // Devuelve lista vacía si no existe el archivo
+        return new ArrayList<>(); // Devuelve lista vacía si no hay archivo
     }
 
     private void guardarPalabras() {
@@ -103,7 +99,7 @@ public class PalabrasController implements Initializable {
 
     public String obtenerPalabraAleatoria() {
         if (palabras.isEmpty()) {
-            return "default"; // En caso de que no haya palabras en la lista
+            return "default"; // Valor por defecto si no hay palabras
         }
         int randomIndex = (int) (Math.random() * palabras.size());
         return palabras.get(randomIndex);

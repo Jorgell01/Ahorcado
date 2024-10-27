@@ -24,18 +24,14 @@ public class PuntuacionesController implements Initializable {
 
     @FXML
     private HBox puntuacionesHBox;
-
     @FXML
     private ListView<String> puntuacionesListView;
-
     @FXML
     private AnchorPane root;
 
-    private List<Jugador> jugadores;
-
-    private final String FILE_PATH = "puntuaciones.json";
-
-    private String nombreJugador;
+    private List<Jugador> jugadores;  // Lista de jugadores con sus puntuaciones
+    private final String FILE_PATH = "puntuaciones.json";  // Ruta del archivo JSON
+    private String nombreJugador;  // Nombre del jugador actual
 
     public PuntuacionesController() {
         try {
@@ -50,7 +46,7 @@ public class PuntuacionesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         jugadores = cargarPuntuaciones();
-        actualizarPuntuaciones();
+        actualizarPuntuaciones();  // Actualiza la vista con los datos del JSON
     }
 
     public void setJugadorActual(String nombreJugador) {
@@ -121,14 +117,14 @@ public class PuntuacionesController implements Initializable {
         for (Jugador jugador : jugadores) {
             if (jugador.getNick().equalsIgnoreCase(nombreJugador)) {
                 jugadorExiste = true;
-                jugador.setPuntuacion(jugador.getPuntuacion() + puntuacion);
+                jugador.setPuntuacion(jugador.getPuntuacion() + puntuacion);  // Sumar puntos si el jugador ya existe
                 break;
             }
         }
 
         if (!jugadorExiste) {
             Jugador nuevoJugador = new Jugador(nombreJugador, puntuacion);
-            jugadores.add(nuevoJugador);
+            jugadores.add(nuevoJugador);  // Añadir jugador si no existía
         }
 
         guardarPuntuaciones();
@@ -140,9 +136,8 @@ public class PuntuacionesController implements Initializable {
                 return jugador.getPuntuacion();
             }
         }
-        return 0; // Retorna 0 si el jugador no tiene puntuación previa
+        return 0;  // Retorna 0 si el jugador no tiene puntuación previa
     }
-
 
     public AnchorPane getRoot() {
         return root;

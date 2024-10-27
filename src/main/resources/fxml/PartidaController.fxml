@@ -9,33 +9,26 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-
-    <!-- Puntuaciones o vidas ancladas a la esquina superior derecha -->
+    <!-- Contenedor de puntuaciones y vidas anclado en la esquina superior derecha -->
     <VBox alignment="CENTER" spacing="10" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <Label fx:id="labelPuntuaciones" text="Puntos: 0" />
         <Label fx:id="labelVidasRestantes" text="Vidas: 9" />
-        <Button fx:id="buttonReiniciar" mnemonicParsing="false" onAction="#onActionReiniciar" text="Nueva Partida" />
     </VBox>
 
-    <!-- Contenedor central para los componentes del juego -->
-    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <!-- Coloca el botón de reinicio en un VBox separado -->
+    <VBox alignment="TOP_LEFT" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <Button fx:id="buttonReiniciar" onAction="#onActionReiniciar" text="Nueva Partida" />
+    </VBox>
 
-        <!-- Imagen del Ahorcado centrada -->
+    <!-- Otros componentes centrales -->
+    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
         <ImageView fx:id="imageAhorcado" fitHeight="100" fitWidth="100" />
-
-        <!-- Área de la palabra a adivinar centrada -->
         <Label fx:id="labelPalabra" text="_ _ _ _ _ _ _ _ _" />
-
-        <!-- Letras intentadas centradas -->
         <Label fx:id="labelLetrasIntentadas" text="Letras falladas" />
-
-        <!-- Campo de texto y botones centrados -->
         <HBox alignment="CENTER" spacing="10">
             <TextField fx:id="textFieldLetra" promptText="Ingrese una letra" />
             <Button fx:id="buttonProbarLetra" onAction="#onActionProcesarLetra" text="Letra" />
             <Button fx:id="buttonResolverPalabra" onAction="#onActionResolverPalabra" text="Resolver" />
         </HBox>
-
     </VBox>
-
 </AnchorPane>

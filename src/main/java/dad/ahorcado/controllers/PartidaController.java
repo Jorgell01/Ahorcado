@@ -5,9 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PartidaController {
 
@@ -18,6 +22,8 @@ public class PartidaController {
     @FXML
     private TextField textFieldLetra;
     @FXML
+    private ImageView imageAhorcado;
+    @FXML
     private AnchorPane root;
 
     private final PuntuacionesController puntuacionesController;
@@ -27,11 +33,13 @@ public class PartidaController {
     private String palabraOculta;
     private int vidasRestantes;
     private String intentosFallidos;
+    private List<Image> imagenesAhorcado; // Lista de imágenes para cada etapa del ahorcado
 
     public PartidaController(PuntuacionesController puntuacionesController, String nombreJugador) {
         this.puntuacionesController = puntuacionesController;
         this.nombreJugador = nombreJugador;
         puntuacionesController.setJugadorActual(nombreJugador);
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PartidaController.fxml"));
             loader.setController(this);
@@ -43,8 +51,16 @@ public class PartidaController {
 
     @FXML
     public void initialize() {
+        cargarImagenes();
         iniciarPartida();
-        buttonReiniciar.setOnAction(e -> onActionReiniciar());
+    }
+
+    private void cargarImagenes() {
+        imagenesAhorcado = new ArrayList<>();
+        for (int i = 1; i <= 9; i++) {
+            String imagePath = getClass().getResource("/images/" + i + ".png").toExternalForm();
+            imagenesAhorcado.add(new Image(imagePath));
+        }
     }
 
     private void iniciarPartida() {
@@ -54,6 +70,7 @@ public class PartidaController {
         vidasRestantes = 9;
         intentosFallidos = "";
         actualizarInterfaz();
+        actualizarImagenAhorcado();
     }
 
     private void actualizarInterfaz() {
@@ -61,6 +78,13 @@ public class PartidaController {
         labelVidasRestantes.setText("Vidas restantes: " + vidasRestantes);
         labelLetrasIntentadas.setText(intentosFallidos);
         textFieldLetra.clear();
+    }
+
+    private void actualizarImagenAhorcado() {
+        int imagenIndex = 9 - vidasRestantes;
+        if (imagenIndex >= 0 && imagenIndex < imagenesAhorcado.size()) {
+            imageAhorcado.setImage(imagenesAhorcado.get(imagenIndex));
+        }
     }
 
     @FXML
@@ -80,6 +104,7 @@ public class PartidaController {
                 vidasRestantes--;
                 intentosFallidos += letra + " ";
                 actualizarInterfaz();
+                actualizarImagenAhorcado();
             }
         } else {
             System.out.println("Introduce solo una letra.");
@@ -94,40 +119,28 @@ public class PartidaController {
         textFieldLetra.clear();
 
         if (palabraActual.equalsIgnoreCase(palabraIntentada)) {
-            System.out.println("¡Has ganado!");
-            puntuacionesController.finalizarPartida(nombreJugador, 100); // Incluimos el nombre del jugador
-            labelPuntuaciones.setText("Puntos: " + puntuacionesController.obtenerPuntuacionJugador(nombreJugador));
+            puntuacionesController.finalizarPartida(nombreJugador, 100); // Ganaste
         } else {
-            System.out.println("Palabra incorrecta.");
             vidasRestantes--;
             actualizarInterfaz();
+            actualizarImagenAhorcado();
             comprobarFinDeJuego();
         }
     }
 
     private void comprobarFinDeJuego() {
         if (palabraOculta.replace(" ", "").equals(palabraActual)) {
-            System.out.println("¡Has ganado!");
-            if (nombreJugador != null && !nombreJugador.isEmpty()) {
-                puntuacionesController.finalizarPartida(nombreJugador, 100); // Pasamos el nombre del jugador y la puntuación
-                labelPuntuaciones.setText("Puntos: " + puntuacionesController.obtenerPuntuacionJugador(nombreJugador));
-            } else {
-                System.out.println("Error: El nombre del jugador no puede estar vacío.");
-            }
+            puntuacionesController.finalizarPartida(nombreJugador, 100);
         } else if (vidasRestantes == 0) {
-            System.out.println("Has perdido.");
-            if (nombreJugador != null && !nombreJugador.isEmpty()) {
-                puntuacionesController.finalizarPartida(nombreJugador, -50); // Pasamos el nombre del jugador y la puntuación
-                labelPuntuaciones.setText("Puntos: " + puntuacionesController.obtenerPuntuacionJugador(nombreJugador));
-            } else {
-                System.out.println("Error: El nombre del jugador no puede estar vacío.");
-            }
+            puntuacionesController.finalizarPartida(nombreJugador, -50);
         }
     }
 
     @FXML
     public void onActionReiniciar() {
         iniciarPartida();
+        intentosFallidos = "";
+        labelLetrasIntentadas.setText("");
     }
 
     public AnchorPane getRoot() {

@@ -32,7 +32,7 @@ public class LoginController {
             loader.setController(this);
             loader.load();
 
-            // Cargar y reproducir la música de fondo desde el classpath
+            // Reproducir música del login
             String musicFile = getClass().getResource("/music/You-have-no-enemies.wav").toExternalForm();
             Media sound = new Media(musicFile);
             mediaPlayer = new MediaPlayer(sound);
@@ -48,14 +48,24 @@ public class LoginController {
     private void handleLogin() {
         String nickname = nicknameTextField.getText().trim();
         if (!nickname.isEmpty()) {
-            rootController.setNombreJugador(nickname);  // Pasamos el nombre del jugador a RootController
+            rootController.setNombreJugador(nickname);
             System.out.println("Nombre del jugador en LoginController: " + nickname);
 
-            // Cambiar la escena al juego principal
+            detenerMusica(); // Detiene la música del Login antes de cambiar la escena
+
+            // Cambiar la escena al juego principal y empezar la música del Root
             stage.setScene(new Scene(rootController.getRoot()));
+            rootController.iniciarMusica(); // Iniciar la música en el RootController
             stage.show();
         } else {
             System.out.println("El nickname no puede estar vacío.");
+        }
+    }
+
+    // Detener la música del Login
+    private void detenerMusica() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
         }
     }
 

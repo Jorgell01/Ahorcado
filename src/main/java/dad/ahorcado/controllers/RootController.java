@@ -17,7 +17,6 @@ public class RootController implements Initializable {
 
     @FXML
     private TabPane containerTabPane;
-
     @FXML
     private BorderPane root;
 
@@ -31,8 +30,15 @@ public class RootController implements Initializable {
             loader.setController(this);
             loader.load();
 
-            // Inicializamos la instancia de PuntuacionesController aquí
+            // Crear instancia de PuntuacionesController
             puntuacionesControllerInstance = new PuntuacionesController();
+
+            // Configurar la música del juego pero no reproducirla aún
+            String musicFile = getClass().getResource("/music/diabla.wav").toExternalForm();
+            Media sound = new Media(musicFile);
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setVolume(0.1);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -44,7 +50,6 @@ public class RootController implements Initializable {
         containerTabPane.getTabs().clear();
     }
 
-    // Método para recibir el nombre del jugador
     public void setNombreJugador(String nombreJugador) {
         this.nombreJugador = nombreJugador;
         if (puntuacionesControllerInstance != null) {
@@ -52,12 +57,10 @@ public class RootController implements Initializable {
         }
         System.out.println("Nombre del jugador establecido: " + nombreJugador);
 
-        crearPestanas(); // Llamar a crearPestanas después de establecer el nombre
+        crearPestanas();
     }
 
-    // Método para crear pestañas cuando el nombre del jugador ya está establecido
     private void crearPestanas() {
-        // Crear las pestañas y pasar el nombre del jugador al PartidaController
         Tab partidaTab = new Tab("Partida");
         partidaTab.setContent(new PartidaController(puntuacionesControllerInstance, nombreJugador).getRoot());
 
@@ -68,6 +71,13 @@ public class RootController implements Initializable {
         puntuacionesTab.setContent(puntuacionesControllerInstance.getRoot());
 
         containerTabPane.getTabs().addAll(partidaTab, palabrasTab, puntuacionesTab);
+    }
+
+    // Método para iniciar la música en el RootController
+    public void iniciarMusica() {
+        if (mediaPlayer != null) {
+            mediaPlayer.play();
+        }
     }
 
     public BorderPane getRoot() {
