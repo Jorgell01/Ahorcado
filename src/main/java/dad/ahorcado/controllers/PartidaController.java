@@ -16,7 +16,7 @@ import java.util.List;
 public class PartidaController {
 
     @FXML
-    private Button buttonProbarLetra, buttonResolverPalabra, buttonReiniciar;
+    private Button buttonProbarLetra, buttonResolverPalabra;
     @FXML
     private Label labelPalabra, labelLetrasIntentadas, labelVidasRestantes, labelPuntuaciones;
     @FXML
@@ -33,7 +33,7 @@ public class PartidaController {
     private String palabraOculta;
     private int vidasRestantes;
     private String intentosFallidos;
-    private List<Image> imagenesAhorcado; // Lista de imágenes para cada etapa del ahorcado
+    private List<Image> imagenesAhorcado;
 
     public PartidaController(PuntuacionesController puntuacionesController, String nombreJugador) {
         this.puntuacionesController = puntuacionesController;
@@ -93,6 +93,11 @@ public class PartidaController {
         textFieldLetra.clear();
 
         if (letra.length() == 1 && letra.matches("[A-Za-z]")) {
+            if (intentosFallidos.contains(letra.toLowerCase()) || intentosFallidos.contains(letra.toUpperCase())) {
+                System.out.println("Esta letra ya ha sido intentada.");
+                return;
+            }
+
             if (palabraActual.toLowerCase().contains(letra.toLowerCase())) {
                 for (int i = 0; i < palabraActual.length(); i++) {
                     if (palabraActual.toLowerCase().charAt(i) == letra.toLowerCase().charAt(0)) {
@@ -119,7 +124,7 @@ public class PartidaController {
         textFieldLetra.clear();
 
         if (palabraActual.equalsIgnoreCase(palabraIntentada)) {
-            puntuacionesController.finalizarPartida(nombreJugador, 100); // Ganaste
+            puntuacionesController.finalizarPartida(nombreJugador, 100);
         } else {
             vidasRestantes--;
             actualizarInterfaz();

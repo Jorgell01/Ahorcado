@@ -1,0 +1,49 @@
+/* src/main/resources/css/halloween.css */
+.root {
+    -fx-background-color: #000000; /* Fondo negro */
+    -fx-font-family: "Comic Sans MS", cursive, sans-serif; /* Fuente temática */
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFA500; /* Color de texto naranja */
+}
+
+.button {
+    -fx-background-color: #FFA500; /* Fondo de botón naranja */
+    -fx-text-fill: #000000; /* Texto de botón negro */
+    -fx-border-color: #FF4500; /* Borde de botón rojo oscuro */
+    -fx-border-width: 2px;
+    -fx-background-radius: 10;
+    -fx-pref-width: 150px;
+}
+
+.label {
+    -fx-text-fill: #FFA500; /* Color de texto naranja */
+}
+
+.text-field {
+    -fx-background-color: #333333; /* Fondo de campo de texto gris oscuro */
+    -fx-text-fill: #FFA500; /* Texto de campo de texto naranja */
+    -fx-border-color: #FF4500; /* Borde de campo de texto rojo oscuro */
+    -fx-border-width: 2px;
+    -fx-background-radius: 10;
+    -fx-prompt-text-fill: #FF6347;
+}
+
+.list-view {
+    -fx-background-color: #333333; /* Fondo de lista gris oscuro */
+    -fx-text-fill: #FFA500; /* Texto de lista naranja */
+    -fx-border-color: #FF4500; /* Borde de lista rojo oscuro */
+    -fx-border-width: 2px;
+}
+
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(255, 69, 0, 0.8), 10, 0.5, 0, 0); /* Sombra para ImageView */
+}
+
+.slider {
+    -fx-control-inner-background: #333333; /* Fondo del slider gris oscuro */
+    -fx-background-color: #FFA500; /* Fondo del slider naranja */
+    -fx-text-fill: #000000; /* Texto del slider negro */
+    -fx-border-color: #FF4500; /* Borde del slider rojo oscuro */
+    -fx-border-width: 2px;
+    -fx-background-radius: 10;
+}

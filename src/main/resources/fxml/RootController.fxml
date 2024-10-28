@@ -4,27 +4,57 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.CustomMenuItem?>
+<?import javafx.scene.control.Slider?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <TabPane fx:id="containerTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab fx:id="partidaTab" text="Partida">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-          <Tab fx:id="palabrasTab" text="Palabras">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab fx:id="puntuacionesTab" text="Puntuaciones">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/halloween.css">
+  <top>
+    <MenuBar>
+      <menus>
+        <Menu text="Nueva Partida">
+          <items>
+            <MenuItem text="Nueva Partida" onAction="#handleNuevaPartida"/>
+          </items>
+        </Menu>
+        <Menu text="Volumen">
+          <items>
+            <CustomMenuItem>
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <Slider fx:id="volumeSlider" min="0" max="1" value="0.1" showTickLabels="true" showTickMarks="true" majorTickUnit="0.1" blockIncrement="0.1" styleClass="slider"/>
               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </center>
+            </CustomMenuItem>
+          </items>
+        </Menu>
+        <Menu text="Socorro">
+          <items>
+            <MenuItem text="Socorro" onAction="#handleSocorro"/>
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+  <center>
+    <TabPane fx:id="containerTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
+      <tabs>
+        <Tab fx:id="partidaTab" text="Partida">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+          </content>
+        </Tab>
+        <Tab fx:id="palabrasTab" text="Palabras">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+          </content>
+        </Tab>
+        <Tab fx:id="puntuacionesTab" text="Puntuaciones">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
 </BorderPane>
