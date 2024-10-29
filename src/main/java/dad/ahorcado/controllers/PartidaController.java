@@ -139,7 +139,11 @@ public class PartidaController {
         textFieldLetra.clear();
 
         if (palabraActual.equalsIgnoreCase(palabraIntentada)) {
+            palabraOculta = palabraActual; // Actualizar la palabra oculta con la palabra completa
+            actualizarInterfaz(); // Actualizar la interfaz para mostrar la palabra completa
             puntuacionesController.finalizarPartida(nombreJugador, 100);
+            mostrarAlertaVictoria(); // Mostrar la alerta de victoria
+            desactivarBotones(); // Desactivar los botones
         } else {
             vidasRestantes--;
             actualizarInterfaz();
@@ -152,9 +156,11 @@ public class PartidaController {
         if (palabraOculta.replace(" ", "").equals(palabraActual)) {
             puntuacionesController.finalizarPartida(nombreJugador, 100);
             mostrarAlertaVictoria();
+            desactivarBotones();
         } else if (vidasRestantes == 0) {
             puntuacionesController.finalizarPartida(nombreJugador, -50);
             mostrarAlertaDerrota();
+            desactivarBotones();
         }
     }
 
@@ -174,11 +180,18 @@ public class PartidaController {
         alert.showAndWait();
     }
 
+    private void desactivarBotones() {
+        buttonProbarLetra.setDisable(true);
+        buttonResolverPalabra.setDisable(true);
+    }
+
     @FXML
     public void onActionReiniciar() {
         iniciarPartida();
         intentosFallidos = "";
         labelLetrasIntentadas.setText("");
+        buttonProbarLetra.setDisable(false);
+        buttonResolverPalabra.setDisable(false);
     }
 
     public AnchorPane getRoot() {

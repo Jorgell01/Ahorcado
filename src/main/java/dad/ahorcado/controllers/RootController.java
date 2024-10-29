@@ -34,6 +34,7 @@ public class RootController implements Initializable {
     private PuntuacionesController puntuacionesControllerInstance;
     private MediaPlayer mediaPlayer;
     private PartidaController partidaController;
+    private Tab palabrasTab; // Referencia a la pestaña de palabras
 
     public RootController() {
         try {
@@ -41,17 +42,14 @@ public class RootController implements Initializable {
             loader.setController(this);
             loader.load();
 
-            // Crear instancia de PuntuacionesController
             puntuacionesControllerInstance = new PuntuacionesController();
 
-            // Configurar la música del juego pero no reproducirla aún
             String musicFile = getClass().getResource("/music/diabla.wav").toExternalForm();
             Media sound = new Media(musicFile);
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.1);
 
-            // Listener para el Slider de volumen
             volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(newValue.doubleValue()));
 
         } catch (IOException e) {
@@ -76,9 +74,10 @@ public class RootController implements Initializable {
 
     private void crearPestanas() {
         Tab partidaTab = new Tab("Partida");
-        partidaTab.setContent(new PartidaController(puntuacionesControllerInstance, nombreJugador).getRoot());
+        partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador);
+        partidaTab.setContent(partidaController.getRoot());
 
-        Tab palabrasTab = new Tab("Palabras");
+        palabrasTab = new Tab("Palabras"); // Guardar referencia a la pestaña "Palabras"
         palabrasTab.setContent(new PalabrasController().getRoot());
 
         Tab puntuacionesTab = new Tab("Puntuaciones");
@@ -87,7 +86,6 @@ public class RootController implements Initializable {
         containerTabPane.getTabs().addAll(partidaTab, palabrasTab, puntuacionesTab);
     }
 
-    // Método para iniciar la música en el RootController
     public void iniciarMusica() {
         if (mediaPlayer != null) {
             mediaPlayer.play();
@@ -106,7 +104,6 @@ public class RootController implements Initializable {
     private void handleNuevaPartida() {
         System.out.println("Nueva partida iniciada");
 
-        // Obtén la referencia de la pestaña donde está PartidaController
         Tab partidaTab = containerTabPane.getTabs().stream()
                 .filter(tab -> "Partida".equals(tab.getText()))
                 .findFirst()
@@ -120,11 +117,22 @@ public class RootController implements Initializable {
                 partidaController.onActionReiniciar();
             }
         }
+
+        // Desactivar la pestaña de "Palabras" al iniciar una nueva partida
+        if (palabrasTab != null) {
+            palabrasTab.setDisable(true);
+        }
+    }
+
+    public void finalizarPartida() {
+        // Método para habilitar la pestaña de palabras cuando termine la partida
+        if (palabrasTab != null) {
+            palabrasTab.setDisable(false);
+        }
     }
 
     @FXML
     private void handleSocorro() {
-        // Lógica para mostrar la ventana de ayuda
         Stage helpStage = new Stage();
         VBox helpRoot = new VBox();
         helpRoot.getChildren().add(new Label("Normas del juego de Ahorcado:\n\n"
@@ -140,3 +148,4 @@ public class RootController implements Initializable {
         helpStage.show();
     }
 }
+
