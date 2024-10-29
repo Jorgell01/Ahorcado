@@ -2,11 +2,14 @@ package dad.ahorcado.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -53,6 +56,7 @@ public class PartidaController {
     public void initialize() {
         cargarImagenes();
         iniciarPartida();
+        textFieldLetra.setOnKeyPressed(this::handleKeyPressed);
     }
 
     private void cargarImagenes() {
@@ -84,6 +88,17 @@ public class PartidaController {
         int imagenIndex = 9 - vidasRestantes;
         if (imagenIndex >= 0 && imagenIndex < imagenesAhorcado.size()) {
             imageAhorcado.setImage(imagenesAhorcado.get(imagenIndex));
+        }
+    }
+
+    @FXML
+    private void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (textFieldLetra.isFocused()) {
+                onActionProcesarLetra();
+            } else if (buttonResolverPalabra.isFocused()) {
+                onActionResolverPalabra();
+            }
         }
     }
 
@@ -136,9 +151,27 @@ public class PartidaController {
     private void comprobarFinDeJuego() {
         if (palabraOculta.replace(" ", "").equals(palabraActual)) {
             puntuacionesController.finalizarPartida(nombreJugador, 100);
+            mostrarAlertaVictoria();
         } else if (vidasRestantes == 0) {
             puntuacionesController.finalizarPartida(nombreJugador, -50);
+            mostrarAlertaDerrota();
         }
+    }
+
+    private void mostrarAlertaVictoria() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("¡Victoria!");
+        alert.setHeaderText(null);
+        alert.setContentText("¡Felicidades! Has ganado el juego.");
+        alert.showAndWait();
+    }
+
+    private void mostrarAlertaDerrota() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Derrota");
+        alert.setHeaderText(null);
+        alert.setContentText("Lo siento, has perdido el juego.");
+        alert.showAndWait();
     }
 
     @FXML

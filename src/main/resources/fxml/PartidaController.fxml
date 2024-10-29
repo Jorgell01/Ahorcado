@@ -23,7 +23,7 @@
         <Label fx:id="labelLetrasIntentadas" text="Letras falladas" />
 
         <HBox alignment="CENTER" spacing="10">
-            <TextField fx:id="textFieldLetra" promptText="Ingrese una letra" />
+            <TextField fx:id="textFieldLetra" promptText="Ingrese una letra" onKeyPressed="#handleKeyPressed" />
             <Button fx:id="buttonProbarLetra" onAction="#onActionProcesarLetra" text="Letra" />
             <Button fx:id="buttonResolverPalabra" onAction="#onActionResolverPalabra" text="Resolver" />
         </HBox>
