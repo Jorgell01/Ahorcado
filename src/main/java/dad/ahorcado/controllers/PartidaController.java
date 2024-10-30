@@ -31,6 +31,7 @@ public class PartidaController {
 
     private final PuntuacionesController puntuacionesController;
     private final String nombreJugador;
+    private final RootController rootController;
 
     private String palabraActual;
     private String palabraOculta;
@@ -38,9 +39,10 @@ public class PartidaController {
     private String intentosFallidos;
     private List<Image> imagenesAhorcado;
 
-    public PartidaController(PuntuacionesController puntuacionesController, String nombreJugador) {
+    public PartidaController(PuntuacionesController puntuacionesController, String nombreJugador, RootController rootController) {
         this.puntuacionesController = puntuacionesController;
         this.nombreJugador = nombreJugador;
+        this.rootController = rootController;
         puntuacionesController.setJugadorActual(nombreJugador);
 
         try {
@@ -113,6 +115,7 @@ public class PartidaController {
                 return;
             }
 
+            // Nota: El programa fallará si intenta resolver palabras compuestas (con espacios)
             if (palabraActual.toLowerCase().contains(letra.toLowerCase())) {
                 for (int i = 0; i < palabraActual.length(); i++) {
                     if (palabraActual.toLowerCase().charAt(i) == letra.toLowerCase().charAt(0)) {
@@ -138,12 +141,14 @@ public class PartidaController {
         String palabraIntentada = textFieldLetra.getText().trim();
         textFieldLetra.clear();
 
+        // Nota: El programa fallará si intenta resolver palabras compuestas (con espacios)
         if (palabraActual.equalsIgnoreCase(palabraIntentada)) {
             palabraOculta = palabraActual; // Actualizar la palabra oculta con la palabra completa
             actualizarInterfaz(); // Actualizar la interfaz para mostrar la palabra completa
             puntuacionesController.finalizarPartida(nombreJugador, 100);
             mostrarAlertaVictoria(); // Mostrar la alerta de victoria
             desactivarBotones(); // Desactivar los botones
+            rootController.finalizarPartida(); // Habilitar la pestaña de palabras
         } else {
             vidasRestantes--;
             actualizarInterfaz();
@@ -157,10 +162,12 @@ public class PartidaController {
             puntuacionesController.finalizarPartida(nombreJugador, 100);
             mostrarAlertaVictoria();
             desactivarBotones();
+            rootController.finalizarPartida(); // Habilitar la pestaña de palabras
         } else if (vidasRestantes == 0) {
             puntuacionesController.finalizarPartida(nombreJugador, -50);
             mostrarAlertaDerrota();
             desactivarBotones();
+            rootController.finalizarPartida(); // Habilitar la pestaña de palabras
         }
     }
 

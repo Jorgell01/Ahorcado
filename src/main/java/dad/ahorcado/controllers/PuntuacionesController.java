@@ -6,6 +6,7 @@ import dad.ahorcado.models.Jugador;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +28,8 @@ public class PuntuacionesController implements Initializable {
     @FXML
     private ListView<String> puntuacionesListView;
     @FXML
+    private Button actualizarButton;
+    @FXML
     private AnchorPane root;
 
     private List<Jugador> jugadores;  // Lista de jugadores con sus puntuaciones
@@ -47,6 +50,9 @@ public class PuntuacionesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         jugadores = cargarPuntuaciones();
         actualizarPuntuaciones();  // Actualiza la vista con los datos del JSON
+
+        // Botón para actualizar la lista de puntuaciones
+        actualizarButton.setOnAction(e -> actualizarPuntuaciones());
     }
 
     public void setJugadorActual(String nombreJugador) {

@@ -56,6 +56,7 @@ public class LoginController {
             // Cambiar la escena al juego principal y empezar la música del Root
             stage.setScene(new Scene(rootController.getRoot()));
             rootController.iniciarMusica(); // Iniciar la música en el RootController
+            stage.setTitle("Ahorcado - Juego Principal");
             stage.show();
         } else {
             System.out.println("El nickname no puede estar vacío.");

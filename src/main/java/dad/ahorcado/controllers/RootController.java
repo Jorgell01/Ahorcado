@@ -3,8 +3,6 @@ package dad.ahorcado.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -14,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 
 import java.io.IOException;
 import java.net.URL;
@@ -74,7 +73,7 @@ public class RootController implements Initializable {
 
     private void crearPestanas() {
         Tab partidaTab = new Tab("Partida");
-        partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador);
+        partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador, this);
         partidaTab.setContent(partidaController.getRoot());
 
         palabrasTab = new Tab("Palabras"); // Guardar referencia a la pestaña "Palabras"
@@ -111,7 +110,7 @@ public class RootController implements Initializable {
 
         if (partidaTab != null) {
             if (partidaController == null) {
-                partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador);
+                partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador, this);
                 partidaTab.setContent(partidaController.getRoot());
             } else {
                 partidaController.onActionReiniciar();
@@ -148,4 +147,3 @@ public class RootController implements Initializable {
         helpStage.show();
     }
 }
-
