@@ -141,7 +141,7 @@ public class PartidaController {
         String palabraIntentada = textFieldLetra.getText().trim();
         textFieldLetra.clear();
 
-        // Nota: El programa fallará si intenta resolver palabras compuestas (con espacios)
+        
         if (palabraActual.equalsIgnoreCase(palabraIntentada)) {
             palabraOculta = palabraActual; // Actualizar la palabra oculta con la palabra completa
             actualizarInterfaz(); // Actualizar la interfaz para mostrar la palabra completa
