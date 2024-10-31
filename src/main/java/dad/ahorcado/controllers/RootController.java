@@ -78,6 +78,7 @@ public class RootController implements Initializable {
 
         palabrasTab = new Tab("Palabras"); // Guardar referencia a la pestaña "Palabras"
         palabrasTab.setContent(new PalabrasController().getRoot());
+        palabrasTab.setDisable(true); // Desactivar la pestaña al iniciar
 
         Tab puntuacionesTab = new Tab("Puntuaciones");
         puntuacionesTab.setContent(puntuacionesControllerInstance.getRoot());

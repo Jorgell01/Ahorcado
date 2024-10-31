@@ -72,7 +72,7 @@ public class PartidaController {
     private void iniciarPartida() {
         PalabrasController palabrasController = new PalabrasController();
         palabraActual = palabrasController.obtenerPalabraAleatoria();
-        palabraOculta = palabraActual.replaceAll("[A-Za-z]", "_ ");
+        palabraOculta = palabraActual.replaceAll("[A-Za-z]", "_");
         vidasRestantes = 9;
         intentosFallidos = "";
         actualizarInterfaz();
@@ -115,14 +115,23 @@ public class PartidaController {
                 return;
             }
 
-            // Nota: El programa fallará si intenta resolver palabras compuestas (con espacios)
             if (palabraActual.toLowerCase().contains(letra.toLowerCase())) {
+                StringBuilder nuevaPalabraOculta = new StringBuilder(palabraOculta);
                 for (int i = 0; i < palabraActual.length(); i++) {
                     if (palabraActual.toLowerCase().charAt(i) == letra.toLowerCase().charAt(0)) {
-                        palabraOculta = palabraOculta.substring(0, i * 2) + palabraActual.charAt(i) + palabraOculta.substring(i * 2 + 1);
+                        nuevaPalabraOculta.setCharAt(i, palabraActual.charAt(i));
                     }
                 }
+                palabraOculta = nuevaPalabraOculta.toString();
                 actualizarInterfaz();
+
+                if (palabraOculta.equals(palabraActual)) {
+                    puntuacionesController.finalizarPartida(nombreJugador, 100);
+                    mostrarAlertaVictoria();
+                    desactivarBotones();
+                    rootController.finalizarPartida(); // Habilitar la pestaña de palabras
+                }
+
             } else {
                 vidasRestantes--;
                 intentosFallidos += letra + " ";
