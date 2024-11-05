@@ -34,8 +34,6 @@ public class PalabrasController implements Initializable {
     @FXML
     private Button quitarButton;
     @FXML
-    private Button actualizarButton;
-    @FXML
     private AnchorPane root;
 
     private ObservableList<String> palabras;
@@ -56,10 +54,9 @@ public class PalabrasController implements Initializable {
         palabras = FXCollections.observableArrayList(cargarPalabras()); // Cargar palabras desde JSON al iniciar
         listPalabras.setItems(palabras);
 
-        // Botones para añadir, quitar y actualizar palabras de la lista
+        // Botones para añadir y quitar palabras de la lista
         aniadirButton.setOnAction(e -> aniadirPalabra());
         quitarButton.setOnAction(e -> quitarPalabra());
-        actualizarButton.setOnAction(e -> actualizarLista());
     }
 
     private void aniadirPalabra() {
@@ -77,10 +74,6 @@ public class PalabrasController implements Initializable {
             palabras.remove(palabraSeleccionada);
             guardarPalabras(); // Guardar cambios
         }
-    }
-
-    private void actualizarLista() {
-        palabras.setAll(cargarPalabras()); // Recargar palabras desde JSON
     }
 
     private List<String> cargarPalabras() {

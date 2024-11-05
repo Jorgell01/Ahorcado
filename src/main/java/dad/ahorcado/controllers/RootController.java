@@ -43,7 +43,7 @@ public class RootController implements Initializable {
 
             puntuacionesControllerInstance = new PuntuacionesController();
 
-            String musicFile = getClass().getResource("/music/diabla.wav").toExternalForm();
+            String musicFile = getClass().getResource("/music/you-have-no-enemies.wav").toExternalForm();
             Media sound = new Media(musicFile);
             mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

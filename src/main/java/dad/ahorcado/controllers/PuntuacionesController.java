@@ -3,10 +3,12 @@ package dad.ahorcado.controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dad.ahorcado.models.Jugador;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -24,14 +26,15 @@ import java.util.ResourceBundle;
 public class PuntuacionesController implements Initializable {
 
     @FXML
+    private Label puntuacionesLabel;
+    @FXML
     private HBox puntuacionesHBox;
     @FXML
     private ListView<String> puntuacionesListView;
     @FXML
-    private Button actualizarButton;
-    @FXML
     private AnchorPane root;
 
+    private ObservableList<String> puntuaciones;
     private List<Jugador> jugadores;  // Lista de jugadores con sus puntuaciones
     private final String FILE_PATH = "puntuaciones.json";  // Ruta del archivo JSON
     private String nombreJugador;  // Nombre del jugador actual
@@ -49,10 +52,9 @@ public class PuntuacionesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         jugadores = cargarPuntuaciones();
+        puntuaciones = FXCollections.observableArrayList();
+        puntuacionesListView.setItems(puntuaciones);
         actualizarPuntuaciones();  // Actualiza la vista con los datos del JSON
-
-        // Botón para actualizar la lista de puntuaciones
-        actualizarButton.setOnAction(e -> actualizarPuntuaciones());
     }
 
     public void setJugadorActual(String nombreJugador) {
@@ -103,11 +105,10 @@ public class PuntuacionesController implements Initializable {
     }
 
     public void actualizarPuntuaciones() {
-        List<String> listaPuntuaciones = new ArrayList<>();
+        puntuaciones.clear();
         for (Jugador jugador : jugadores) {
-            listaPuntuaciones.add(jugador.getNick() + " - " + jugador.getPuntuacion() + " puntos");
+            puntuaciones.add(jugador.getNick() + " - " + jugador.getPuntuacion() + " puntos");
         }
-        puntuacionesListView.getItems().setAll(listaPuntuaciones);
     }
 
     public void finalizarPartida(String nombreJugador, int puntuacion) {
@@ -134,6 +135,7 @@ public class PuntuacionesController implements Initializable {
         }
 
         guardarPuntuaciones();
+        actualizarPuntuaciones();  // Actualizar la lista de puntuaciones
     }
 
     public int obtenerPuntuacionJugador(String nombreJugador) {

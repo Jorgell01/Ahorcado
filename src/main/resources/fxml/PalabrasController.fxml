@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/halloween.css">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/halloween.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <!-- ListView donde se mostrarán las palabras añadidas -->
-      <ListView fx:id="listPalabras" layoutX="54.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="20.0" />
+      <ListView fx:id="listPalabras" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0" />
 
       <!-- VBox para contener el TextField y los botones -->
-      <VBox fx:id="containerButton" alignment="TOP_CENTER" layoutX="467.0" layoutY="31.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="containerButton" alignment="CENTER" maxWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
             <!-- TextField para ingresar nuevas palabras -->
             <TextField fx:id="textFieldNuevaPalabra" promptText="Escribe una palabra" />
@@ -27,13 +27,6 @@
 
             <!-- Botón para quitar la palabra seleccionada -->
             <Button fx:id="quitarButton" mnemonicParsing="false" text="Quitar">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-               </VBox.margin>
-            </Button>
-
-            <!-- Botón para actualizar la lista de palabras -->
-            <Button fx:id="actualizarButton" mnemonicParsing="false" text="Actualizar">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
                </VBox.margin>
