@@ -75,13 +75,18 @@ public class RootController implements Initializable {
         Tab partidaTab = new Tab("Partida");
         partidaController = new PartidaController(puntuacionesControllerInstance, nombreJugador, this);
         partidaTab.setContent(partidaController.getRoot());
+        partidaTab.setClosable(false); // No permitir cerrar la pestaña
+
 
         palabrasTab = new Tab("Palabras"); // Guardar referencia a la pestaña "Palabras"
         palabrasTab.setContent(new PalabrasController().getRoot());
         palabrasTab.setDisable(true); // Desactivar la pestaña al iniciar
+        palabrasTab.setClosable(false); // No permitir cerrar la pestaña
 
         Tab puntuacionesTab = new Tab("Puntuaciones");
         puntuacionesTab.setContent(puntuacionesControllerInstance.getRoot());
+        puntuacionesTab.setClosable(false); // No permitir cerrar la pestaña
+
 
         containerTabPane.getTabs().addAll(partidaTab, palabrasTab, puntuacionesTab);
     }
@@ -145,6 +150,7 @@ public class RootController implements Initializable {
         Scene helpScene = new Scene(helpRoot, 500, 200);
         helpStage.setScene(helpScene);
         helpStage.setTitle("Socorro");
+        helpStage.initModality(javafx.stage.Modality.APPLICATION_MODAL); // Bloquear otras ventanas
         helpStage.show();
     }
 }
