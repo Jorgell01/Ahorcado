@@ -36,7 +36,7 @@ Este es un juego de Ahorcado desarrollado en Java utilizando JavaFX para la inte
 
 1. Ejecuta la aplicación:
     ```sh
-    mvn javafx:run
+    mvn exec:java
     ```
 2. **Pantalla de Login**: Introduce tu nombre de jugador y haz clic en "Login".
 3. **Pantalla Principal**: 
