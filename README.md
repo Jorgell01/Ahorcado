@@ -29,7 +29,7 @@ Este es un juego de Ahorcado desarrollado en Java utilizando JavaFX para la inte
     ```
 3. Compila el proyecto con Maven:
     ```sh
-    mvn clean install
+    mvn clean compile
     ```
 
 ## Uso
